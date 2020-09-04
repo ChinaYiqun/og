@@ -23,7 +23,7 @@
 
 	套接字(socket )
 
-
+	线程
     锁机制：包括互斥锁、条件变量、读写锁
     互斥锁提供了以排他方式防止数据结构被并发修改的方法。
     读写锁允许多个线程同时读共享数据，而对写操作是互斥的。
@@ -34,3 +34,30 @@
     
     信号机制(Signal)：类似进程间的信号处理
     线程间的通信目的主要是用于线程同步，所以线程没有像进程通信中的用于数据交换的通信机制。
+
+
+ 5. python 协程
+（背景）
+    1. 同步 io
+    开5个网页；每个网页按序请求 加载 渲染 执行；
+    2. 异步 io
+    开五个网页；后面网页不等前面网页加载 完毕后 就发送请求
+ 
+ （？什么是协程）
+  IO密集型任务，进程切换代价大；python线程 是伪线程 数量有限
+    1.数量不限 2.没有锁机制 
+
+
+
+ # 异步IO例子：适配Python3.5，使用async和await关键字
+async def hello(index):       # 通过关键字async定义协程
+    print('Hello world! index=%s, thread=%s' % (index, threading.currentThread()))
+    await asyncio.sleep(1)     # 模拟IO任务
+    print('Hello again! index=%s, thread=%s' % (index, threading.currentThread()))
+
+loop = asyncio.get_event_loop()     # 得到一个事件循环模型
+tasks = [hello(1), hello(2)]        # 初始化任务列表
+loop.run_until_complete(asyncio.wait(tasks))    # 执行任务
+loop.close()
+
+
