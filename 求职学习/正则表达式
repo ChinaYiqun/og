@@ -1,0 +1,37 @@
+import re
+string = 'Python is the best '
+
+# 注意 只匹配以XXX开头的位置！！！
+res = re.match('P',str)
+res.group()
+
+# 忽略 大小写 多行匹配
+res = re.match('P',str,re.I)
+
+# re.I|re.M
+res = re.match('P',str)
+'(.*)is(.*).* '
+
+
+
+pattern = re.compile('<div.*?author">.*?<a.*?<img.*?>(.*?)</a>.*?<div.*?'+
+                         'content">(.*?)<!--(.*?)-->.*?</div>(.*?)<div class="stats.*?class="number">(.*?)</i>',re.S)
+items = re.findall(pattern,content)
+
+
+1.查找一个匹配项
+
+查找并返回一个匹配项的函数有3个：search、match、fullmatch，他们的区别分别是：
+
+
+    search： 查找任意位置的匹配项
+    match： 必须从字符串开头匹配
+    fullmatch： 整个字符串与正则完全匹配
+
+2.查找多个匹配项
+
+讲完查找一项，现在来看看查找多项吧，查找多项函数主要有：findall函数 与 finditer函数：
+
+
+    findall： 从字符串任意位置查找，返回一个列表finditer：从字符串任意位置查找，返回一个迭代器
+

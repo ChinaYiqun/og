@@ -1,0 +1,39 @@
+调参经验
+
+1. 先用原模型推荐参数在小数据集下面 train 一下
+   检查数据载入 和标签是否正确 (torch 之前踩过一个generate.filenames 的一个坑)
+   版本问题等 shuffle
+
+1.1 小规模问题直接sgd 大规模 用adam 
+
+2.1 【pre-trained 权重也很重要】 
+如用pre-trained 先只开最后一层，先warm-up一下
+
+
+
+2.2 loss曲线，正常的情况应该是train loss呈log状一直下降最后趋于稳定，eval loss开始时一直下降到某一个epoch之后开始趋于稳定或开始上升，这时候可以用early stopping保存eval loss最低的前一个那个模型
+
+	曲线 初始时 导致 振荡，应减小学习率，并 从头 开始训练 
+	曲线 全程缓慢初始 学习率过小 导致 收敛慢，应增大学习率，并 从头 开始训练 
+	链接：https://zhuanlan.zhihu.com/p/55373912
+
+
+
+
+作为baseline 如果ok的话 
+
+2.3  
+
+	1.batchsize 减半 
+
+	如果BatchSize加大，可以加大学习率，当BatchSize加大k倍，则学习也加大k的开根号位
+
+	2.batchnorm和dropout可以试，放的位置很重要。优先尝试放在最后输出层之前，以及embedding
+	3. 正则化项 kernel_regularizer 惩罚项将与损失函数一起作为网络的最终优化目标
+	4. 学习率
+
+改用SGD 
+3 . beach - search or grid search 
+Bayesian Optimization. 贝叶斯优化，等，，，没试过
+
+

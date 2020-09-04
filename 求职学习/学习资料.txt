@@ -1,0 +1,9 @@
+leetcode
+苦练tensorflow keras pytorch
+手写 reader
+SQL 的学习 https://www.bilibili.com/video/BV1q4411G7Lw?p=1
+hive SQL sparkSQL
+用于时间序列的预测
+
+Holt-Winters方法， ARIMA， fbProphet
+社区划分 稠密子图挖掘  风险传播 personalized page rank

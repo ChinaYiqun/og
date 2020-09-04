@@ -1,0 +1,142 @@
+class cmpSmaller(str):
+    def __lt__(self, y):
+        return self + y < y + self  # 字符串拼接比较(两两比较)
+    # 按由小到大来排列
+
+class Solution:
+    def minNumber(self, nums: List[int]) -> str:
+        res=sorted(map(str, nums),key=cmpSmaller)
+        smallest = ''.join(res)
+        return smallest
+
+class Solution:
+    def minNumber(self, nums: List[int]) -> str:
+        def sort_rule(x, y):
+            a, b = x + y, y + x
+            if a > b: return 1
+            elif a < b: return -1
+            else: return 0
+        
+        strs = [str(num) for num in nums]
+        strs.sort(key = functools.cmp_to_key(sort_rule))
+        return ''.join(strs)
+
+
+作者：jyd
+链接：https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/solution/mian-shi-ti-45-ba-shu-zu-pai-cheng-zui-xiao-de-s-4/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+作者：bigkjp97
+链接：https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/solution/python3jian-dan-chu-li-by-bigkjp97/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+sorted() 函数可以接收任何的 iterable
+1.sorted(example_list, key=lambda x: x*-1)
+2.sorted(example_list, key=lambda x: x[0])
+3.
+
+iterable  与  iterator
+从这里可以看出Iterable继承自object, Iterator继承自Iterable
+
+Python2.1以前的排序比较方法只提供一个cmp比较函数参数，没有__lt__等6个富比较方法， Python 2.1引入了富比较方法，Python3.4之后作废了cmp参数
+
+2.剑指 Offer 62. 圆圈中最后剩下的数字
+class Solution {
+    int f(int n, int m) {
+        if (n == 1)
+            return 0;
+        int x = f(n - 1, m);
+        return (m + x) % n;
+    }
+public:
+    int lastRemaining(int n, int m) {
+        return f(n, m);
+    }
+};
+
+作者：LeetCode-Solution
+链接：https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/solution/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-by-lee/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+class Solution:
+    def lastRemaining(self, n: int, m: int) -> int:
+        f = 0
+        for i in range(2, n + 1):
+            f = (m + f) % i
+        return f
+
+
+作者：LeetCode-Solution
+链接：https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/solution/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-by-lee/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+    def lastRemaining(self, n: int, m: int) -> int:
+        i, a = 0, list(range(n))
+        while len(a) > 1:
+            i = (i + m - 1) % len(a)
+            a.pop(i)
+        return a[0]
+
+
+ 3归并排序 剑指 Offer 51. 数组中的逆序对
+ 作者：老K
+链接：https://zhuanlan.zhihu.com/p/109948968
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+def merge(list_left, list_right):
+    """
+    入参数组都是有序的，此处将两个有序数组合并成一个大的有序数组
+    """
+    # 两个数组的起始下标
+    l, r = 0, 0
+
+    new_list = []
+    while l < len(list_left) and r < len(list_right):
+        if list_left[l] <= list_right[r]:
+            new_list.append(list_left[l])
+            l += 1
+        else:
+            new_list.append(list_right[r])
+            r += 1
+    new_list += list_left[l:]
+    new_list += list_right[r:]
+    return new_list
+
+
+def merge_sort(mylist):
+    """归并排序
+    mylist: 待排序数组
+    return: 新数组list
+    """
+    if len(mylist) <= 1:
+        return mylist
+
+    mid = len(mylist) // 2
+    list_left = merge_sort(mylist[:mid])
+    list_right = merge_sort(mylist[mid:])
+    return merge(list_left, list_right)
+
+
+if __name__ == "__main__":
+    mylist = [12, 33, 199, 0, 54, 33, 11]
+    result = merge_sort(mylist)
+    print(f'归并排序后：{result}')
+
+4.最大子序列和
+ class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        import sys
+        # dp i 表示包括自己在内的最大数
+        dp = [-sys.maxsize for i in nums]
+        ans = nums[0]
+        dp[0] = nums[0]
+        for i in range(1,len(nums)):
+            dp[i] = max(dp[i-1]+nums[i],nums[i])
+            ans = max(ans,dp[i])
+        return ans

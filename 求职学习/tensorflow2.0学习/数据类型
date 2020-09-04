@@ -1,0 +1,34 @@
+概念
+TensorFlow™ 是一个采用 数据流图（data flow graphs），用于数值计算的开源软件库。
+节点（Nodes）在图中表示数学操作，图中的线（edges）则表示在节点间相互联系的多维数据数组，即张量（tensor）。
+
+Tensorflow底层最核心的概念是张量，计算图以及自动微分。
+
+tensorflow 数据类型
+
+import numpy as np
+import tensorflow as tf
+
+i = tf.constant(1) # tf.int32 类型常量
+l = tf.constant(1,dtype = tf.int64) # tf.int64 类型常量
+f = tf.constant(1.23) #tf.float32 类型常量
+d = tf.constant(3.14,dtype = tf.double) # tf.double 类型常量
+s = tf.constant("hello world") # tf.string类型常量
+b = tf.constant(True) #tf.bool类型常量
+
+
+print(tf.int64 == np.int64) 
+print(tf.bool == np.bool)
+print(tf.double == np.float64)
+print(tf.string == np.unicode) # tf.string类型和np.unicode类型不等价
+
+True
+True
+True
+False
+
+强制类型转换:
+h = tf.constant([123,456],dtype = tf.int32)
+f = tf.cast(h,tf.float32)
+
+转换为numpy
