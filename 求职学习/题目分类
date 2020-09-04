@@ -1,5 +1,13 @@
+数组
+74. 搜索二维矩阵 
+转换成 一维矩阵 再进行二分查找
+240. 搜索二维矩阵 II 【妙】
+右上角解法
+https://leetcode-cn.com/problems/search-a-2d-matrix-ii/solution/pythonti-jie-jian-dan-de-fang-fa-by-xiao-xue-66/
+
 字符串
 9. 回文数
+
 8. 字符串转换整数 【难】
 647. 回文子串
 344. 反转字符串
@@ -82,8 +90,58 @@ hash表
 二分法
 
 33.搜索旋转排序数组【难】
+方法1 先找最小值 再去做偏移！！                                                   方法2 
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        if not nums:
+            return -1
+        left = 0
+        right = len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                return mid
+            
+            # 左半段有序
+            if nums[mid] >= nums[left]:
+                if nums[left] <= target <= nums[mid]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            # 右半段有序
+            else:
+                if nums[mid] <= target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+        return -1
+
+作者：conan96
+链接：https://leetcode-cn.com/problems/search-in-rotated-sorted-array/solution/lc33-qing-xi-pythoner-fen-fa-by-conan96/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。                                                                      
+https://leetcode-cn.com/problems/search-in-rotated-sorted-array/submissions/
+def findMink(nums,k):
+	left,right = 0,len(nums)-1
 69. x 的平方根		
-153. 寻找旋转排序数组中的最小值
+153. 寻找旋转排序数组中的最小值 【重点】
+def findMin(self, nums: List[int]) -> int:
+    left, right = 0, len(nums) - 1
+    while left < right:
+        mid = (left + right) >> 1
+        # 情况 1 中间数 大于右边 出现了异常; 说明最小值在右边
+        if nums[mid] > nums[right]:         
+            left = mid + 1
+        # 否则在左边
+        else:                               
+            right = mid
+    return nums[left]
+
+
+作者：armeria-program
+链接：https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/solution/er-fen-cha-zhao-wei-shi-yao-zuo-you-bu-dui-cheng-z/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 排序 
 
 21.合并两个有序链表		 【归并排序 重点】
