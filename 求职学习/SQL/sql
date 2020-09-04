@@ -1,0 +1,8 @@
+CREATE TABLE <表名> (
+    <列名1> <列类型1>,
+    <列名2> <列类型2>,
+    <列名3> <列类型3>,
+    PRIMARY KEY (<列名1>),
+    FOREIGN KEY (<列名2>) REFERENCES <表名2>(<列名2>)
+);
+

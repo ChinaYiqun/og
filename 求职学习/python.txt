@@ -1,0 +1,133 @@
+﻿1. == 和 is
+== 判断值 is 判断地址
+
+2. 深拷贝 和 浅拷贝
+import copy
+copy.copy()
+copy.deepcopy()
+
+3. python 的私有化
+属性方法 前加 下划线 __name
+	前后都加 __name__ 用户空间的魔法属性或者方法 自己不要这样
+
+4.property
+相当于把方法进行了简单封装
+@property 装饰器
+
+
+5.迭代器
+iterable
+可用于循环的东东
+1.集合 list tuple set dict str queue deque
+2. generator keras 中的那个
+3. Iterable
+isinstance('abc',Iterable)
+
+https://www.zhihu.com/search?type=content&q=%E7%94%9F%E6%88%90%E5%99%A8%E8%BF%AD%E4%BB%A3%E5%99%A8
+关系 Iterable 包含 Iterator 和 集合
+     Iterator 包含 generator
+另外 需要注意的是：
+     集合 可以通过 Iter 转换为 Iterator 
+
+6.set 
+交 a&b
+并 a|b
+差 a-b
+对称差 a^b 
+
+7.闭包就是函数套函数
+匿名函数不是闭包 lambda 是Python定义匿名函数的语法
+
+
+8.python 装饰器 
+	wrapper()
+	让代码和逻辑分离！！
+	大型项目下：使得代码的可读性可重用性增强！！！
+https://www.bilibili.com/video/BV11s411V7Dt?from=search&seid=12848985575842765754
+
+10 heapq
+
+class Solution(object):
+    def topKFrequent(self, words, k):
+        """
+        :type words: List[str]
+        :type k: int
+        :rtype: List[str]
+        """
+       
+        freqList = collections.Counter(words)
+        heapList = []
+        for s in freqList.keys():
+            heapq.heappush(heapList, [-freqList[s], s])
+        
+        return [heapq.heappop(heapList)[1] for _ in range(k)]
+
+作者：仗剑走天涯
+链接：https://zhuanlan.zhihu.com/p/69332662
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+yield 相当于把函数 编程一个generator；调用该函数 返回一个 iterable 对象
+
+5. python 协程
+（背景）
+    1. 同步 io
+    开5个网页；每个网页按序请求 加载 渲染 执行；
+    2. 异步 io
+    开五个网页；后面网页不等前面网页加载 完毕后 就发送请求
+ 
+ （？什么是协程）
+  IO密集型任务，进程切换代价大；python线程 是伪线程 数量有限
+    1.数量不限 2.没有锁机制 
+
+  
+
+
+
+
+可迭代对象包括
+1. 迭代器 （有next的是迭代器）
+2.序列 str list tuple set
+3.字典
+迭代器 包括 生成器（有yield 的是生成器）
+
+神经网络基础：
+    CNN网络有哪些层
+    pooling 有几个
+    解决过拟合的方法
+    分别介绍L1和L2正则化的方式和优缺点
+    batchsize 大或者小的影响
+
+
+
+# 协程
+def consumer():         # 定义消费者，由于有yeild关键词，此消费者为一个生成器
+    print("[Consumer] Init Consumer ......")
+    r = "init ok"       # 初始化返回结果，并在启动消费者时，返回给生产者
+    while True:
+        n = yield r     # 消费者通过yield接收生产者的消息，同时返给其结果
+        print("[Consumer] conusme n = %s, r = %s" % (n, r))
+        r = "consume %s OK" % n     # 消费者消费结果，下个循环返回给生产者
+
+def produce(c):         # 定义生产者，此时的 c 为一个生成器
+    print("[Producer] Init Producer ......")
+    r = c.send(None)    # 启动消费者生成器，同时第一次接收返回结果
+    print("[Producer] Start Consumer, return %s" % r)
+    n = 0
+    while n < 5:
+        n += 1
+        print("[Producer] While, Producing %s ......" % n)
+        r = c.send(n)   # 向消费者发送消息并准备接收结果。此时会切换到消费者执行
+        print("[Producer] Consumer return: %s" % r)
+    c.close()           # 关闭消费者生成器
+    print("[Producer] Close Producer ......")
+
+produce(consumer())
+
+
+
+list 和 tuple 的区别
+1. tuple 只可以增加 vs list 无所谓
+   tuple 更安全 list 更灵活
+2. tuple id不可变 list id可变
+3. tuple 更小一些
