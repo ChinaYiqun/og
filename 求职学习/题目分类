@@ -90,7 +90,8 @@ hash表
 二分法
 
 33.搜索旋转排序数组【难】
-方法1 先找最小值 再去做偏移！！                                                   方法2 
+方法1 先找最小值 再去做偏移！！  
+方法2 先去判断哪有序 在去移动左右指针                                                 
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         if not nums:
@@ -125,6 +126,8 @@ def findMink(nums,k):
 	left,right = 0,len(nums)-1
 69. x 的平方根		
 153. 寻找旋转排序数组中的最小值 【重点】
+
+通过 mid 去判断异常
 def findMin(self, nums: List[int]) -> int:
     left, right = 0, len(nums) - 1
     while left < right:
