@@ -35,11 +35,16 @@ https://leetcode-cn.com/problems/search-a-2d-matrix-ii/solution/pythonti-jie-jia
 栈
 	
 20. 有效的括号
-155. 最小栈
+
+155. 最小栈 【重点】
+	用一个辅助栈
+	在 push 的时候要多考虑一下！！
 84 柱状图中最大的矩形  
 85 最大矩形  
 221. 最大正方形
 剑指 Offer 09. 用两个栈实现队列 [重点]
+	用一个辅助栈 作为中间转移的容器
+	出栈的时候要多考虑一下
 	关键思路：
 	入队列 l1.append
 	出队列 分情况
