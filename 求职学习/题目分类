@@ -57,9 +57,40 @@ https://leetcode-cn.com/problems/search-a-2d-matrix-ii/solution/pythonti-jie-jia
 hash表
 1. 两数之和   
 138. 复制带随机指针的链表
-149. 直线上最多的点数
-347. 前 K 个高频元素 【重点】
+149. 直线上最多的点数 【也是重点】
+class Solution:
+    def maxPoints(self, points: List[List[int]]) -> int:
+        if not points:
+            return 0
 
+        # 寻找每一个点的 斜率的共同点个数
+        ans = 1
+        for i in range(len(points)):
+            i_dict = {'+':1}
+            dup = 0
+            for j in range(i+1,len(points)):
+                # i, j
+                if points[i] == points[j]:
+                    dup += 1
+                    continue
+                p1x , p1y = points[i]
+                p2x , p2y = points[j]
+                
+                k = '-'
+                #计算斜率k
+                try:
+                    k = (p1y - p2y) / (p1x - p2x)
+                except:
+                    pass
+                if k not in i_dict:
+                    i_dict[k] = 2
+                else:
+                    i_dict[k] += 1
+            
+            ans = max(ans,max(i_dict.values())+dup)
+            print(i_dict)
+        return ans
+347. 前 K 个高频元素 【重点】
 树
 剑指 Offer 34. 二叉树中和为某一值的路径
 104. 二叉树的最大深度
@@ -164,6 +195,7 @@ def findMin(self, nums: List[int]) -> int:
 5.   最长回文子串 【难】
 	Manacher 算法
 53.  最大子序和
+152. 乘机最大子数组
 70.  爬楼梯
 42.  接雨水
 221. 最大正方形
