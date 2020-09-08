@@ -245,3 +245,15 @@ list 和 tuple 的区别
    tuple 更安全 list 更灵活
 2. tuple id不可变 list id可变
 3. tuple 更小一些
+
+
+
+batch normalization 和 layer normalization 区别
+batch 对一组 样本做缩放 
+layer 对一个 做缩放
+
+layer 适合RNN 对于 dims 层进行缩放，每一个word 的特征量纲进行归一化
+而如果用了 batch 1会导致 如果输入的是一句话的话，padding 操作无意义
+2本身 batch 关联性不大，强行 batch会导致丢失差异信息
+
+CNN chennel 不能归一化 ，不同chenel 代表不同纬度的特征信息 例如 红10 绿0 黄 10 ！= 红1 绿 0 黄 1
