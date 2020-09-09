@@ -1,0 +1,283 @@
+
+
+#利用动态规划和递归解
+def jud(x,y,l,ll,lll):#求x,y点坐标在迷宫里的可能走法，即向上，向下，向左，向右
+    n,m=len(l)-1,len(l[0])-1 #l为迷宫位置二维图，ll为迷宫的每点从起点到该点
+    k=[]     #的最短路径，lll为记录正在探索的从起点到该点的路线用以避免走重复
+    if x+1<=n and (x+1,y) not in lll and l[x+1][y]!=1:k+=[(x+1,y)] 
+    if x-1>=0 and (x-1,y) not in lll and l[x-1][y]!=1:k+=[(x-1,y)]
+    if y+1<=m and (x,y+1) not in lll and l[x][y+1]!=1:k+=[(x,y+1)]
+    if y-1>=0 and (x,y-1) not in lll and l[x][y-1]!=1:k+=[(x,y-1)]
+    return k
+def mg(x,y,l,ll,lll):#x,y为该点坐标，其余同上，探索x,y的走法
+    k=jud(x,y,l,ll,lll)#k为可能的走法
+    lll+=[(x,y)]        #lll位置储存
+    if len(k)>0:        #是否为可走
+        for v in k:
+            x1,y1=v     
+            if not ll[x1][y1] :  #如果x1,y1位置 还没有路径信息，用x,y位置进
+                ll[x1][y1]=ll[x][y]+[(x1,y1)] #行更新         
+            if len(ll[x1][y1])>=len(ll[x][y])+1: #如果x1,y1之前储存的路径#要长于从x,y的路径到x1,y1的，则更新x1,y1路径信息
+                ll[x1][y1]=ll[x][y]+[(x1,y1)]
+            mg(x1,y1,l,ll,lll.copy())  #再对x1,y1 这点进行探索
+    return False
+ 
+while True:
+    try:
+        nn,mm=list(map(int,input().split()))
+        l,ll,lll=[],[],[]
+        for i in range(nn):
+            l+=[list(map(int,input().split()))]
+        for i in range(nn):
+            ll.append([])
+            for j in range(mm):
+                ll[i].append([])
+        ll[0][0]=[(0,0)]
+        mg(0,0,l,ll,lll)   # 设置起始点为（0，0），你也可以设为其他点为起始，
+        for v in ll[-1][-1]: #来探索其他点到任意一点的最短位置             
+            print("(%d,%d)"%(v[0],v[1])) #ll[-1][-1], 指的是将右下角一点设
+    except:
+        break
+#为终点并打印出来，你也可以求其他点，如ll[2][3],来实现任意
+                                          #两点求最短路题目描述
+定义一个二维数组N*M（其中2<=N<=10;2<=M<=10），如5 × 5数组下所示：
+
+ample Input
+
+0 1 0 0 0
+
+0 1 0 1 0
+
+0 0 0 0 0
+
+0 1 1 1 0
+
+0 0 0 1 0
+
+Sample Output
+
+(0, 0)
+
+(1, 0)
+
+(2, 0)
+
+(2, 1)
+
+(2, 2)
+
+(2, 3)
+
+(2, 4)
+
+(3, 4)
+
+(4, 4)
+
+作者：雷克雅未克
+链接：https://zhuanlan.zhihu.com/p/61628249
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+graph = {
+        'a' : ['b', 'c'],
+        'b' : ['a', 'c', 'd'],
+        'c' : ['a','b', 'd','e'],
+        'd' : ['b' , 'c', 'e', 'f'],
+        'e' : ['c', 'd'],
+        'f' : ['d']
+        }
+
+
+def BFS(graph, s):
+    queue = []
+    queue.append(s)
+    seen = set()
+    seen.add(s)
+    while len(queue) > 0:
+        vertex = queue.pop(0)
+        nodes = graph[vertex]
+        for node in nodes:
+            if node not in seen:
+                queue.append(node)
+                seen.add(node)
+        print(vertex)
+        
+BFS(graph, 'a')
+
+
+def DFS(graph, s):
+    stack = []
+    stack.append(s)
+    seen = set()
+    seen.add(s)
+    while len(stack) > 0:
+        vertex = stack.pop()
+        nodes  = graph[vertex]
+        for node in nodes:
+            if node not in seen:
+                stack.append(node)
+                seen.add(node)
+        print(vertex)
+DFS(graph, 'a')
+
+
+def DFS1(graph, s, queue=[]):
+    queue.append(s)
+    for i in graph[s]:
+        if i not in queue:
+            DFS1(graph, i, queue)
+    return queue
+print(DFS1(graph, 'a'))
+
+
+作者：雷克雅未克
+链接：https://zhuanlan.zhihu.com/p/61628249
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+​inf = float('inf')
+matrix_distance = [[0,1,12,inf,inf,inf],
+                   [inf,0,9,3,inf,inf],
+                   [inf,inf,0,inf,5,inf],
+                   [inf,inf,4,0,13,15],
+                   [inf,inf,inf,inf,0,4],
+                   [inf,inf,inf,inf,inf,0]]
+
+def dijkstra(matrix_distance, source_node):
+    inf = float('inf')
+    # init the source node distance to others
+    dis = matrix_distance[source_node]
+    node_nums = len(dis)
+    
+    flag = [0 for i in range(node_nums)]
+    flag[source_node] = 1
+    
+    for i in range(node_nums-1):
+        min = inf
+        #find the min node from the source node
+        for j in range(node_nums):
+            if flag[j] == 0 and dis[j] < min:
+                min = dis[j]
+                u = j
+        flag[u] = 1
+        #update the dis 
+        for v in range(node_nums):
+            if flag[v] == 0 and matrix_distance[u][v] < inf:
+                if dis[v] > dis[u] + matrix_distance[u][v]:
+                    dis[v] = dis[u] + matrix_distance[u][v]                    
+    
+    return dis
+
+print(dijkstra(matrix_distance, 0))
+
+
+def Floyd(dis):
+    #min (Dis(i,j) , Dis(i,k) + Dis(k,j) )
+    nums_vertex = len(dis[0])
+    for k in range(nums_vertex):
+        for i in range(nums_vertex):
+            for j in range(nums_vertex):
+                if dis[i][j] > dis[i][k] + dis[k][j]:
+                    dis[i][j] = dis[i][k] + dis[k][j]
+    return dis
+print(Floyd(matrix_distance))
+
+
+作者：雷克雅未克
+链接：https://zhuanlan.zhihu.com/p/61628249
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+from collections import defaultdict
+from heapq import *
+    
+def Prim(vertexs, edges, start_node):
+    adjacent_vertex = defaultdict(list)
+    for v1, v2, length in edges:
+        adjacent_vertex[v1].append((length, v1, v2))
+        adjacent_vertex[v2].append((length, v2, v1))
+        
+    mst = []
+    closed = set(start_node)
+    
+    adjacent_vertexs_edges = adjacent_vertex[start_node]
+    heapify(adjacent_vertexs_edges)
+
+    while adjacent_vertexs_edges:
+        w, v1, v2 = heappop(adjacent_vertexs_edges)
+        if v2 not in closed:
+            closed.add(v2)
+            mst.append((v1, v2, w))
+            
+            for next_vertex in adjacent_vertex[v2]:
+                if next_vertex[2] not in closed:
+                    heappush(adjacent_vertexs_edges, next_vertex)
+                    
+    return mst
+    
+    
+vertexs = list("ABCDEFG")
+edges = [ ("A", "B", 7), ("A", "D", 5),
+          ("B", "C", 8), ("B", "D", 9), 
+          ("B", "E", 7), ("C", "E", 5),
+          ("D", "E", 15), ("D", "F", 6),
+          ("E", "F", 8), ("E", "G", 9),
+          ("F", "G", 11)]
+
+print('prim:', Prim(vertexs, edges, 'A'))
+
+#****************************************************
+
+
+node = dict()
+rank = dict()
+
+def make_set(point):
+    node[point] = point
+    rank[point] = 0
+    
+def find(point):
+    if node[point] != point:
+        node[point] = find(node[point])
+    return node[point]
+
+def merge(point1, point2):
+    root1 = find(point1)
+    root2 = find(point2)
+    if root1 != root2:
+        if rank[root1] > rank[root2]:
+            node[root2] = root1
+        else:
+            node[root1] = root2
+            if rank[root1] == rank[root2] : rank[root2] += 1
+            
+            
+def Kruskal(graph):
+    for vertice in graph['vertices']:
+        make_set(vertice)
+    
+    mst = set()
+    
+    edges = list(graph['edges'])
+    edges.sort()
+    for edge in edges:
+        weight, v1, v2 = edge
+        if find(v1) != find(v2):
+            merge(v1 , v2)
+            mst.add(edge)
+    return mst
+
+graph = {
+    'vertices': ['A', 'B', 'C', 'D'],
+    'edges': set([
+        (1, 'A', 'B'),
+        (5, 'A', 'C'),
+        (3, 'A', 'D'),
+        (4, 'B', 'C'),
+        (2, 'B', 'D'),
+        (1, 'C', 'D'),
+        ])
+    }
+
+print(Kruskal(graph))
