@@ -218,7 +218,14 @@ def findMin(self, nums: List[int]) -> int:
 17. 电话号码的字母组合
 剑指 Offer 34. 二叉树中和为某一值的路径
 
-50. Pow(x, n)
+最长上升子序列(LISLIS):LongestLongest IncreasingIncreasing SubsequenceSubsequence
+最长连续序列(LCSLCS):LongestLongest ConsecutiveConsecutive SequenceSequence
+最长连续递增序列(LCISLCIS):LongestLongest ContinuousContinuous IncreasingIncreasing SubsequenceSubsequence
+最长公共子序列(LCSLCS): LongestLongest CommonCommon SubsequenceSubsequence
+
+作者：a-fei-8
+链接：https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/solution/dong-tai-gui-hua-jie-zui-chang-zi-xu-lie-zi-chua-4/
+
 
 滑动窗口 多指针
 3. 无重复字符的最长子串
