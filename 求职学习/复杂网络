@@ -8,3 +8,20 @@
 		万有引力模型：
 		collective influence：该节点的度 * （邻居节点的度求和）；
 
+社团划分
+		凝聚算法
+				Louvain 算法
+				每个节点看成一个独立社区
+				每个节点尝试尝试分配到邻居社团，观察模块度变化
+		分裂算法
+
+
+
+		半监督
+				Label Propagation Algorithm
+DeepWalk 算法 深度
+Line 算法		广度
+Node2Vec 算法 深+广
+Geometric Graph Convolutional Networks. ICLR. 2020 算法
+
+平台化 AliGraph
