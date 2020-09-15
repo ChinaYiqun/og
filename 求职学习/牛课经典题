@@ -23,32 +23,34 @@ class Solution:
 
     2.排序
 ==============================
-2.排序
+2.排序 注意边界条件！
 快排
-def quick_sort(nums,i,j):
-    if i >= j:
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        def fun(start,end,nums):
+            if start>= end:
+                return nums
+            i,j,tmp = start,end,nums[start]
+            while(i<j):
+                while(i<j and nums[j]>=tmp):
+                    j -= 1
+                nums[i] = nums[j]
+                while(i<j and nums[i]<=tmp):
+                    i += 1
+                nums[j] = nums[i]
+            nums[j] = tmp
+            fun(start,j-1,nums)
+            fun(j+1,end,nums)
+        fun(0,len(nums)-1,nums)
         return nums
-    tmp = nums[i]
-    left = i
-    right = j
-    while i < j:
-        while i < j and nums[j] >= tmp:
-            j -= 1
-        nums[i]=nums[j]
-        while i < j and nums[i] <=tmp:
-            i += 1
-        nums[j]=nums[i]
-    nums[j] = tmp
-    quick_sort(nums,left,i-1)
-    quick_sort(nums,i+1,right)
-    return nums
+
 
 快排的变形
     1.最小k个数
     2.最大k个数
 
 
-归并排序
+归并排序 注意边界条件！
 
 def merge(left, right):
     i, j = 0, 0
