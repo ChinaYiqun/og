@@ -6,6 +6,7 @@ how to find a garbage? 定位？
 
 	最简单的方式  1.引用计数；无法解决循环引用。
 				2.Root Searching 细节 whats GC root
+					线程栈变量；静态变量 常量池 JNI指针
 GC algorithms
 
 	如何回收
@@ -30,16 +31,44 @@ Start ->new-> 栈(逃逸分析 标量替换) -> yes -> pop(不用垃圾回收了
 		   -> TLAB(先用自己私有 再抢共有)
 		   		yes -> Eden   -> survivor1-> FGC ->
 		   		no  -> Eden
+分代算法
+
+G1（没有经验的话用G1） ZGC Shenandoah
+
 
 JDK -> 的发展导致内存变大 算法更迭
+核心降低STW 是一个核心
+										JDK 1.8默认
+ParNew			Serial (少用 单线程)			Parallel Scavenge(多线程) PS
 
-ParNew		Serial (少用)				Parallel Scavenge(多线程) PS
 
-CMS			Serial Old 					Parallel Old(多线程) PO
-
+		Serial Old 					Parallel Old(多线程) PO
+concurrent mark sweep
 			
-			STW stop-the-world 垃圾回收器在干活；业务没反馈;卡顿了
+			STW stop-the-world 垃圾回收器线程在干活；业务线程没反馈;卡顿了
 			单CPU 效率最高
 
 			但是随之线程的逐步提高，效率不会线性提高；因为有Context Switch有代价
 
+
+concurrent mark sweep 四个阶段，没有STW
+
+			初始标记 找root
+			并发标记(没有STW)
+				一边产垃圾 一边收垃圾
+				问题 会不会产生混乱；
+					情况1 浮动垃圾 在标记过程中 ；当前不是垃圾，但是过一段时间变成垃圾
+					情况2 错标	 正在准备清除的时候；错误标记了
+			重新标记 
+				修正 情况2错误标记的
+
+			并发清理
+				清理
+
+Go 语言的内存模型
+	GC 没有虚拟机
+	虚拟空间 虚拟内存 ；物理内存 映射。虚拟空间需求大；物理内存少
+	不需要挪动对象
+
+三色标记算法
+	黑 -> 灰 -> 白

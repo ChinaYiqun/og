@@ -15,5 +15,6 @@ Collection
 	Map
 		HashMap	不安全
 		HashTable 安全
-		
+		【待补充】
+
 List 和 Set 的区别要回答到二者数据结构本质上的区别
