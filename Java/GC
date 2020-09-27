@@ -1,0 +1,45 @@
+garbage ? 
+
+	没人用了，没人引用就是G
+
+how to find a garbage? 定位？
+
+	最简单的方式  1.引用计数；无法解决循环引用。
+				2.Root Searching 细节 whats GC root
+GC algorithms
+
+	如何回收
+	标记清除 marking sweep 碎片化
+	拷贝 	copying	浪费空间
+	标记整理 mark compact 最好
+
+Java 这些算法如何“配合” 使用？
+	垃圾回收器？您指的是哪种垃圾回收器？
+	10 种
+	6 种 分代
+		内存区域分为两个部分
+		新生代  （new 出来的） copying
+			分 eden survivor survivor
+		老年代  （垃圾回收没收掉的）marking sweep /mark compact
+	3 种 分区
+
+
+Start ->new-> 栈(逃逸分析 标量替换) -> yes -> pop(不用垃圾回收了) - >
+			
+		   -> 堆—>(大) ->O(老年代)-> FGC->
+		   -> TLAB(先用自己私有 再抢共有)
+		   		yes -> Eden   -> survivor1-> FGC ->
+		   		no  -> Eden
+
+JDK -> 的发展导致内存变大 算法更迭
+
+ParNew		Serial (少用)				Parallel Scavenge(多线程) PS
+
+CMS			Serial Old 					Parallel Old(多线程) PO
+
+			
+			STW stop-the-world 垃圾回收器在干活；业务没反馈;卡顿了
+			单CPU 效率最高
+
+			但是随之线程的逐步提高，效率不会线性提高；因为有Context Switch有代价
+

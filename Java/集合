@@ -1,0 +1,19 @@
+!collection
+集合与数组区别
+1.可变长 2.内容不同 3.只能存引用
+
+Collection 
+	Set	无序 不可重复
+		HashSet
+		TreeSet 
+	List 有序 可重复
+		ArrayList 数组 不安全
+		LinkedList 链表 不安全
+		Vector 数组 安全 (过时了)
+	Queue
+
+	Map
+		HashMap	不安全
+		HashTable 安全
+		
+List 和 Set 的区别要回答到二者数据结构本质上的区别
