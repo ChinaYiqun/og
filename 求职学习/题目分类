@@ -6,13 +6,56 @@
 https://leetcode-cn.com/problems/search-a-2d-matrix-ii/solution/pythonti-jie-jian-dan-de-fang-fa-by-xiao-xue-66/
 
 字符串
+
 9. 回文数
 
 8. 字符串转换整数 【难】
-647. 回文子串
+5. 最长回文子串  【中心反转】 
+    647. 回文子串     【扩展】
 344. 反转字符串
 28. 实现 strStr()
 151. 翻转字符串里的单词
+class Solution:
+    def reverseWords(self, s: str) -> str:
+
+
+        #str.split()
+        #print(s.split(' '))
+        #l = s.split(' ')
+        # str.join()
+        #print(' '.join(l))
+        # print(s[::-1])
+        # strip()
+
+        # return ' '.join(s.strip().split(' ')[::-1])
+        start,end =0,len(s)-1
+        # 去掉首位空格
+        while(s[start]== ' '):
+            start += 1
+        while(s[end]==' '):
+            end -= 1
+        s = s[start:end+1]
+        # 得到list单词
+        l = []
+        start,end = 0,0
+        while(end < len(s)):
+            #扩大窗口
+            while(end< len(s) and s[end]!=' '):
+                end += 1
+            l.append(s[start:end])
+            while(end<len(s) and s[end]==' '):
+                end += 1
+            start = end
+        res = ""          
+        # 反转list
+        # 连接
+        end = len(l) -1
+        while(end >= 0):
+            # 这种写法狠不好
+            res += l[end]+' '
+            end -= 1
+        return res[0:-1]
+
 链表
 		
 206. 反转链表 
@@ -39,6 +82,7 @@ https://leetcode-cn.com/problems/search-a-2d-matrix-ii/solution/pythonti-jie-jia
 155. 最小栈 【重点】
 	用一个辅助栈
 	在 push 的时候要多考虑一下！！
+
 84 柱状图中最大的矩形  
 85 最大矩形  
 221. 最大正方形
@@ -206,8 +250,37 @@ def findMin(self, nums: List[int]) -> int:
 122. 买卖股票的最佳时机 II 
 62.  不同路径
 64.  最小路径和
-	
-322. 零钱兑换			【重点】
+【背包问题】	
+import sys
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        # 物品数 背包容量
+        things,bag_v = len(coins),amount
+        
+        #
+        dp_full = [False for i in range(amount+1)];dp_full[0] = True # 是否能恰好装满
+
+        dp_plan = [0 for i in range(amount+1)];dp_plan[0] = 1       # 有几种装法
+
+        dp_min_n = [sys.maxsize for i in range(amount+1)];dp_min_n[0] = 0 # 最少的硬币数量
+
+        dp_max_n = [-sys.maxsize for i in range(amount+1)];dp_max_n[0] = 0 # 最大的硬币数量
+
+        dp_max_weight = [0 for i in range(amount+1)];dp_max_weight[0] = 0 #...其他维度的衡量
+
+        for i in range(1,things+1):
+            for j in range(coins[i-1],bag_v+1):
+
+                dp_full[j] |= dp_full[j- coins[i-1]]
+                
+                if coins[i-1] <= j:
+                    dp_max_weight[j] = max(dp_max_weight[j],dp_max_weight[j-coins[i-1]+coins[i-1]])
+                    dp_min_n[j] = min(dp_min_n[j],dp_min_n[j-coins[i-1]]+1)
+                    dp_max_n[j] = max(dp_max_n[j],dp_max_n[j-coins[i-1]]+1)
+                    dp_plan[j] += dp_plan[j-coins[i-1]]
+        
+        return -1 if dp_min_n[-1]==sys.maxsize else dp_min_n[-1]
+322. 零钱兑换			【大重点】
 494. 目标和
 416. 分割等和子集
 518. 零钱兑换 II
