@@ -1,1 +1,25 @@
 数据一致性 【逻辑性的概念 某一时刻只能一个人上厕所】
+	1.
+	synchronized(object){
+		
+		//
+		//
+		//
+
+	}
+	2.
+	synchronized function() 锁this
+
+	3.
+	static synchronized function() 锁class
+
+
+	synchronized jdk1.0-1.2 使用重量级锁 早期版本效率很低 【因为都得间接交给老大】
+	现在 synchronized 执行过程比较复杂
+不持有锁的线程情形；
+	1，忙等待 在门口拎着裤子转圈
+		轻量级锁 写个while循环就行 （自旋锁）
+	2，等待队列	由操作系统调度，经过操作系统老大
+		重量级锁
+	轻量级锁的效率一定高吗？
+		答：不一定 例如1w个人转圈圈的话 很消耗资源
