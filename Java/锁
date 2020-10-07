@@ -22,4 +22,31 @@
 	2，等待队列	由操作系统调度，经过操作系统老大
 		重量级锁
 	轻量级锁的效率一定高吗？
-		答：不一定 例如1w个人转圈圈的话 很消耗资源
+		答：不一定 例如1w个人转圈圈的话 线程来回 切换很消耗资源
+
+
+synchronized 1.0 1.2 的时候直接使用重量级锁 效率很低
+			操作系统老大进行调度
+			当看见这个关键字时候synchronized，由操作系统接管了，调度反馈给JVM
+
+后续版本对 synchronized 进行了优化
+现在 synchronized 真正执行过程比较复杂
+JDK1.5之后 推出JUC 有些新型的锁
+AtomicInterger 用户空间解决 轻量级锁 乐观锁 自选锁 无锁 不用synchronized 的关键字了 CAS
+层层套娃 compareAndSwapInt C++写的底层
+写回去的时候看是不是依然是期望得到那个值，不用上锁就能完成
+CAS 但是也有两大问题！
+	ABA 问题；加一个版本号 加时间戳 加int类型
+	假如 cas修改值时候的原子性问题
+		C++ 源码中unsafe 类中的compareAndSwapInt 函数 调用了UN_safeandExchange 方法
+		Atomic::xchage_ptr 是一个汇编的实现...lock 汇编指令
+			Cas最底层由汇编指令 cmpxchg 指令完成 在多核的时候加lock
+			多核CPU lock指令 锁总线，保证当前总线只有一个CPU 能用
+
+volatile 线程可见性是什么？ 
+6kol!,,oa+:F
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' PASSWORD EXPIRE NEVER; 
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password'; 
+ FLUSH PRIVILEGES; 
+alter user 'root'@'localhost' identified by '12345678';
+FLUSH PRIVILEGES;

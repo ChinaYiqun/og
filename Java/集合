@@ -8,6 +8,7 @@ Collection
 		TreeSet 
 	List 有序 可重复
 		ArrayList 数组 不安全
+			扩容1.5 倍
 		LinkedList 链表 不安全
 		Vector 数组 安全 (过时了)
 	Queue

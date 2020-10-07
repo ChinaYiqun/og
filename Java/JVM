@@ -1,0 +1,41 @@
+JVM 调优是调什么东西
+	调的是Java 的参数
+	第一类 ：以 - 开头的 ；标准参数
+	第二类：	X开头；非标准参数
+		-Xms	200M
+		-Xmx 	200M
+		最小堆 最大堆的限制 防止内存的抖动
+		工业常见
+	第三类：XX开头；非常多参数
+		--XX：+printGC 打印日志
+JVM调优的三个部分
+	1.规划和预调优
+		例如需求是并发数，内存数，cpu数量
+	2.生产环境优化
+		出现了慢，卡顿
+	3.OOM分析
+		Out Of Memory 
+
+调优场景；
+	一个银行的风控模型 
+	GC (Allocation Failure)	5505k->1069k (19840k) 0.01 secs
+	Full GC (Allocation Failure)	19840k->19840k (19840k) 0.01 secs
+常用的命令：
+	jps
+	2019 Jps
+	1958 T15_FullGC_Problem01
+	jinfo 1958
+	会看到该进程 参数
+	jstack 1958|more
+	该进程下的所有线程，查死锁，查哪个线程占cpu高
+	arthas 阿里工具
+		dashboard
+		thread -b 直接定位死锁
+		heap dump 回收不掉，频繁FGC回收怎么办;导入一个文件
+				   看哪个类的对象吃内存比较多，总有一个人指着他，不释放。【测试环境】
+		也可以用Jmap 【测试环境】
+	JavavisualVM 可视化监视 
+面试常考
+	CPU突然飙高，如何定位
+	看是系统线程 （很可能是垃圾回收的问题）；还是业务线程
+
