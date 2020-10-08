@@ -50,3 +50,47 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password
  FLUSH PRIVILEGES; 
 alter user 'root'@'localhost' identified by '12345678';
 FLUSH PRIVILEGES;
+
+
+
+
+锁的四种状态
+	synchronized
+	锁升级过程
+
+偏向锁 不是一种锁 占有坑不是上锁；直接把名字贴上去 去占坑；
+	不用抢；只要第一个线程过来就是他的。不用和别人去抢锁；
+	只要后续有人要进厕所，则进行【锁升级】；从偏向锁升级到自旋锁
+
+	一个线程是 偏向锁；两个线程是 轻量级锁；
+
+为啥要这么干；要有这个偏向锁？
+	Vector ；HashTable；StringBuffer 这些类的方法都写了 synchronized
+	但是实际执行（大多数情况 70% 80%）的时候只有一个线程在执行它；那么 锁竞争的时候效率低；省下锁竞争的过程
+	即便只有一个线程；也会有竞争的这个代码要走！
+
+
+锁的四种状态 new 偏向 轻量 重量级锁
+
+JOL java object layout
+	new 一个对象 16 个字节
+		mw mark word 8
+		kp class pointer 8-12
+		data 成员变量
+		padding 对齐 12-16
+
+给一个对象上锁 实际上是修改 markword的内容；全部记录在markword里面
+
+
+
+悲观锁
+
+总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁
+共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源转让给其它线程
+
+
+乐观锁
+
+总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。乐观锁适用于多读的应用类型，这样可以提高吞吐量
+
+简单的来说CAS适用于写比较少的情况下（多读场景，冲突一般较少），synchronized适用于写比较多的情况下（多写场景，冲突一般较多）
