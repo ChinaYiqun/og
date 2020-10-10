@@ -8,6 +8,8 @@
 	需要把 实现的对象传入到Thread里面再start
 2.5 jdk 8 之后
 	用lambda表达式 new Thread->{...}
+	等价于 new Thread(t::function).start()
+	new Thread(new Runable( run(){function()}))
 
 3.通过线程池启动 Executors启动 
 
@@ -61,15 +63,96 @@ new NEW start()
 
 4. 修饰一个类，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。
 
-A. 无论synchronized关键字加在方法上还是对象上，如果它作用的对象是非静态的，则它取得的锁是对象；如果synchronized作用的对象是一个静态方法或一个类，则它取得的锁是对类，该类所有的对象同一把锁。
+A. 无论synchronized关键字加在方法上还是对象上，如果它作用的对象是非静态的，则它取得的锁是对象；
+如果synchronized作用的对象是一个静态方法或一个类，则它取得的锁是对类，该类所有的对象同一把锁。
 
 B. 每个对象只有一个锁（lock）与之相关联，谁拿到这个锁谁就可以运行它所控制的那段代码。
 
 C. 实现同步是要很大的系统开销作为代价的，甚至可能造成死锁，所以尽量避免无谓的同步控制。
 
 
+Tips
+synchronized(Object)
+	1.不能用 String Integer Long （不能用常量，基础数据类型）
+	2.Object 不能为空；因为会报错
 
 
+第二天知识点：
 
+JVM 内置机制是 线程之间不可见的！ 一个线程改动了flag，需写回堆中；另一个线程读才能看见这个flag改变了。
+
+volatile 可变的；易变的
+	两个作用
+	1.保证线程可见性
+		MESI 【多CPU 保证缓存一致 用硬件保证】
+		缓存一致性协议
+	2.禁止指令重排序 (与CPU有关系;CPU为了提高速度 自作聪明
+	因为现在CPU是流水线的方式；这就导致编译器对指令进行重新的排序)
+
+		2.1 DCL 单例模式
+		2.2	Double Check Lock
+		2.3	MGr06.java
+			保证在JVM 【只有】一个实例对象；只需new一个
+			饿汉式 有需要才会被创建 才会被初始化
+
+				如果不用volatile 的话
+				用双重检查【是否为空】+ synchronized；保证多线程创建不会出错
+
+			volatile保证不会有指令重排序，即保证指令按顺序执行
+			不加volatile 可能会有的问题：
+
+				new 一个对象分三步
+					1.给对象申请内存 [a = 0 b = 0]
+					2.初始化变量 		[a = 8 b = 8]
+					3.把内存的内容赋值给 instance 
+				如果没有指令重排序的话 2，3 回互换位置 再【超高超高；极为罕见】并发的时候可能发这个问题
+				Thread1 getinstance 会new() 执行了 1  3 还没执行到 2 
+				Thread2 getinstance 已经有了，初始化一半去拿值 拿到的是 [a =0 b = 0]
+
+			
+public class Mgr06 {
+
+    private static volatile Mgr06 INSTANCE = null;
+
+    private Mgr06() {
+
+    }
+
+    ConcurrentHashMap chm = null;
+
+    public static Mgr06 getInstance() {
+        if (INSTANCE == null) {
+            synchronized (Mgr06.class) {
+                if (INSTANCE == null) {
+                    try {
+                        Thread.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    INSTANCE = new Mgr06();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+}
+
+		
+
+
+	
+synchronized与ReentrantLock
+区别1 底层实现
+	ReentrantLock实现则是通过利用CAS（CompareAndSwap）自旋机制保证线程操作的原子性和volatile保证数据可见性以实现锁的功能
+
+	synchronized 的实现涉及到锁的升级，具体为无锁、偏向锁、自旋锁、向OS申请重量级锁，
+区别2 手动释放？
+	ReentrantLock 手动释放
+	Synchronized 无需
+区别3  中断？
+	ReentrantLock 可以中断
+	trylock(long timeout,TimeUnit unit)设置超时方法或者将lockInterruptibly()放到代码块中，调用interrupt方法进行中断。
+区别4  公平？
+	synchronized为非公平锁 ReentrantLock则即可以选公平锁也可以选非公平锁，通过构造方法new ReentrantLock时传入boolean值进行选择，为空默认false非公平锁，true为公平锁
 
 
