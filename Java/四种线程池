@@ -1,0 +1,34 @@
+Java线程池概念
+
+顾名思义，管理线程的池子，相比于手工创建、运行线程，使用线程池
+
+优点 
+1.适用于量大 ；处理时间短
+2.可重用
+3.提高响应速度
+
+SingleThreadExecutor
+
+使用场景：适用于串行执行任务场景
+
+FixedThreadPool
+FixedThreadPool是一种线程数量固定的线程池
+maximumPoolSize被设置为1
+
+使用场景：适用于处理CPU密集型的任务，确保CPU在长期被工作线程使用的情况下，尽可能的少的分配线程，即适用执行长期的任务
+
+CachedThreadPool
+
+核心线程数为0，总线程数量阈值为Integer.MAX_VALUE,即可以创建无限的非核心线程
+
+使用场景：适用于处理大量、耗时少的任务
+
+ScheduledThreadPoolExecutor
+线程池仅仅包含固定数目的核心线程
+
+使用场景：周期性执行任务，并且需要限制线程数量的场景
+
+Executors各个方法的弊端：
+1）newFixedThreadPool和newSingleThreadExecutor:  主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。
+2）newCachedThreadPool和newScheduledThreadPool:  主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。
+
