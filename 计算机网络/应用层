@@ -1,0 +1,79 @@
+HTTP（超文本传输协议）是应用层上的一种客户端/服务端模型的通信协议,它由请求和响应构成，且是无状态的。（暂不介绍HTTP2）
+
+协议 
+	协议规定了通信双方必须遵循的数据传输格式，这样通信双方按照约定的格式才能准确的通信。
+
+无状态
+	无状态是指两次连接通信之间是没有任何关系的，每次都是一个新的连接，服务端不会记录前后的请求信息。
+	session + cookie
+
+https://zhuanlan.zhihu.com/p/60450391
+
+
+请求（Request）
+
+	客户端发送一个HTTP请求到服务端的格式：
+
+	请求行
+	请求头
+	请求体
+响应（Response）
+
+	服务端响应客户端格式：
+
+	状态行
+	响应头
+	响应体
+
+
+【重点】 常见状态码
+1XX 服务器发送信息 告诉客户端 还要继续发送东西
+2XX 成功了
+	200
+3XX 重定向
+	301：客户端请求的网页已经永久移动到新的位置
+	举个例子 一些静态资源在别的服务器上
+4XX 客户端错误 
+	404：请求失败，客户端请求的资源没有找到或者是不存在
+5XX 服务器错误
+	500：服务器遇到未知的错误
+	服务器崩掉了
+
+【重点】GET 和 POST 区别
+浅层的 【3-4条】
+	1.GET参数通过URL传递，POST放在Request body中
+	2.GET请求只能进行url编码，而POST支持多种编码方式
+	3.GET请求在URL中传送的参数是有长度限制的，而POST么有 所以传文件可以用post
+	4.GET请求发送的数据类型只能是ASCII字符，POST无限制
+	5.GET刷新后退无害，post会重新提交
+	6.安全性 GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息
+	7.可见性 GET参数通过URL传递，POST放在Request body中
+深层的 【重点讲一下】
+	GET和POST都是HTTP协议中的两种发送请求的方法，由于HTTP的底层是TCP/IP。所以GET和POST的底层也是TCP/IP。
+	GET和POST能做的事情是一样一样的。如果给GET加上request body，活着给POST带上url参数，技术上是完全行的通的。也就是说，GET和POST在本质上没什么区别。
+	两者之间最重大的区别就是：GET产生一个TCP数据包；POST产生两个TCP数据包。
+
+	具体点说来就是：对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。
+
+	
+http1.0 / 2.0 区别
+
+
+
+http 和 https 的区别
+
+[图 ：https://www.zhihu.com/search?type=content&q=http%20和%20https]
+Http与Https的区别：
+Http与Https的区别：
+ 1.HTTP 的URL 以http:// 开头，而HTTPS 的URL 以https://
+ 2.开头HTTP 是不安全的，而 HTTPS 是安全的
+ 3.HTTP 标准端口是80 ，而 HTTPS 的标准端口是443在OSI 
+ 4.网络模型中，HTTP工作于应用层，而HTTPS 的安全传输机制工作在传输层HTTP 无法加密，而HTTPS 对传输的数据进行加密
+ 5.HTTP无需证书，而HTTPS 需要CA机构wosign的颁发的SSL证书
+
+作者：Java3y
+链接：https://zhuanlan.zhihu.com/p/33778904
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+

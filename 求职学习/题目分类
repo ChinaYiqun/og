@@ -290,8 +290,41 @@ class Solution:
 22. 括号生成
 17. 电话号码的字母组合
 剑指 Offer 34. 二叉树中和为某一值的路径
+【总结好的】
+https://leetcode-cn.com/problems/longest-consecutive-sequence/solution/tao-lu-jie-jue-zui-chang-zi-xu-lie-deng-yi-lei-wen/
 
-最长上升子序列(LISLIS):LongestLongest IncreasingIncreasing SubsequenceSubsequence 【简单】
+最长上升子序列(LISLIS):LongestLongest IncreasingIncreasing 
+# Dynamic programming.
+# 基础版
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        if not nums: return 0
+        dp = [1] * len(nums)
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[j] < nums[i]: # 如果要求非严格递增，将此行 '<' 改为 '<=' 即可。
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return max(dp)
+# bisect_left 函数的妙用
+# 二分查找；找到最左边的元素的位置！
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp = []
+        for i in range(len(nums)):
+            idx = bisect_left(dp, nums[i])
+            if idx == len(dp):
+                dp.append(nums[i])
+            else:
+                dp[idx] = nums[i]
+        return len(dp)
+
+作者：jyd
+链接：https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/zui-chang-shang-sheng-zi-xu-lie-dong-tai-gui-hua-2/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+SubsequenceSubsequence 【简单】
 最长连续序列(LCSLCS):LongestLongest ConsecutiveConsecutive SequenceSequence
 最长连续递增序列(LCISLCIS):LongestLongest ContinuousContinuous IncreasingIncreasing SubsequenceSubsequence
 最长公共子序列(LCSLCS): LongestLongest CommonCommon SubsequenceSubsequence
