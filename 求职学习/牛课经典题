@@ -52,20 +52,18 @@ class Solution:
 
 归并排序 注意边界条件！
 
-def merge(left, right):
-    i, j = 0, 0
+def
 
-    nums = []
-    while i < len(left) and j < len(right):
-        if left[i] <= right[j]:
-            nums.append(left[i])
-            i += 1
-        else:
             nums.append(right[j])
             j += 1
     nums += left[i:]
     nums += right[j:]
     return nums
+
+
+
+
+
 def merge_sort(nums):
     if len(nums) <= 1:
         return nums

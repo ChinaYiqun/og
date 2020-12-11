@@ -1,3 +1,8 @@
+CIA三元组
+机密性（Confidentiality）
+完整性（Integrity）
+可用性（Availability）
+
 session工作原理
 session 的工作原理是客户端登录完成之后，服务器会创建对应的 session，session 创建完之后，会把 session 的 id 发送给客户端，客户端再存储到浏览器中。这样客户端每次访问服务器时，都会带着 sessionid，服务器拿到 sessionid 之后，在内存找到与之对应的 session 这样就可以正常工作了。
 
@@ -14,7 +19,8 @@ session和cookie区别
 
 SQL
 1.注入原理及常见类型、MySQL注入语句、注入拿shell语句、SQL盲注原理、常用注入语句及相关函数、常见防护手段、绕过方法
-防护：使用预处理 PreparedStatement。使用正则表达式过滤掉字符中的特殊字符。
+防护：使用预处理 PreparedStatement。使用正则表达式过滤掉字符中的特殊字符。字符串过滤。jsp中调用该函数检查是否包函非法字符。jsp页面判断代码。
+相关函数： -- limit()、concat()、group_concat()、Substr()、Ascii()、Left()、length()、updataxml()等等吧
 
 
 XSS
@@ -31,4 +37,12 @@ CSRF 漏洞进行检测的工具，如 CSRFTester、CSRF Request Builder...
 敏感操作添加验证码
 使用 post 请求
 
+CSRF 和 XSS 和 XXE 有什么区别，以及修复方式？
+XSS是跨站脚本攻击，用户提交的数据中可以构造代码来执行，从而实现窃取用户信息等攻击。修复方式：对字符实体进行转义、使用HTTP Only来禁止JavaScript读取Cookie值、输入时校验、浏览器与Web应用端采用相同的字符编码。
+CSRF是跨站请求伪造攻击，XSS是实现CSRF的诸多手段中的一种，是由于没有在关键操作执行时进行是否由用户自愿发起的确认。修复方式：筛选出需要防范CSRF的页面然后嵌入Token、再次输入密码、检验RefererXXE是XML外部实体注入攻击，
+XML中可以通过调用实体来请求本地或者远程内容，和远程文件保护类似，会引发相关安全问题，例如敏感文件读取。修复方式：XML解析库在调用时严格禁止对外部实体的解析。
+XSS 利用的是用户对指定网站的信任，CSRF 利用的是网站对用户网页浏览器的信任
+
+
 参考链接：https://zhuanlan.zhihu.com/p/104859107
+		https://zhuanlan.zhihu.com/p/115669983（渗透+简单密码学+https）
