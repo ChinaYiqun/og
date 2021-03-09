@@ -1,0 +1,27 @@
+1. collection 用法
+2. try raise
+3. assert
+4. python 引入路径问题
+
+1.Pointer Networks
+
+
+1.搭配词列表
+
+文本领域的数据预处理
+
+	文本纠错
+	低频词处理
+
+1. 需要先仔细读文档
+
+收集各个有用的工具。预处理什么的，别人成行的
+
+
+
+Transformer 入门教程
+https://github.com/huggingface/transformers/tree/master/notebooks
+https://huggingface.co/transformers/training.html
+Tokenizer 编码
+
+https://medium.com/@pierre_guillou/byte-level-bpe-an-universal-tokenizer-but-aff932332ffe

@@ -1,0 +1,21 @@
+Annoy 词向量
+二叉树检索法
+问题1 不够k个 trick 多检索邻居
+问题2 检索的在别的树上 构建多个树
+实例：腾讯词向量实战 通过Annoy 进行索引和快速查询
+www.52nlp.com
+
+HNSW 算法
+
+临近图 最朴素的图算法
+Hierarchcal Navigable Small World graph
+缺点 有些点查不到；初识点定不好的话影响
+HNSW
+code : http://github.com/nmslib/hnswlib
+
+KD Tree
+K dimentional Tree
+
+LSH
+
+Locality Sensitive Hashing
